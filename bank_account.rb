@@ -1,5 +1,5 @@
 module Account
- class Bank_Account
+ class BankAccount
   attr_reader :account_number,:name, :balance
   @@account_number=100
   

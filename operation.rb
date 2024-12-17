@@ -4,15 +4,15 @@ require_relative 'bank_account'
 module Bank_operation
   include Employee
   include Account
-
+  #This is the file where the data will be stored
   DATA_FILE= './accounts_data.dat'
 
-  class Banking_System
+  class BankingSystem
     def initialize
       @accounts=load_accounts
     end
     def run
-      employee=Employee_Login.new
+      employee=EmployeeLogin.new
       until employee.login
       end
 
@@ -60,7 +60,6 @@ module Bank_operation
       else
         []
       end
-      
     end
 
     #Save accounts to the binary file

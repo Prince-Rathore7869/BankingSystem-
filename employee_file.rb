@@ -1,6 +1,6 @@
 module Employee
  
- class Employee_Login
+ class EmployeeLogin
   EMPLOYEE_CREDENTIAL={username:"admin", password: "password"}
 
   def login
