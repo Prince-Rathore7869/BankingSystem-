@@ -14,22 +14,22 @@ module Account
   def deposit(amount)
     @balance +=amount
     puts "Deposit successful!
-    New balance: $#{balance}"
+    New balance: #{balance}"
   end
 
   #Withdraw money
   def withdraw(amount)
     if amount> @balance
-      puts "Insufficient fund! Current balance:$#{balance}"
+      puts "Insufficient fund! Current balance:#{balance}"
     else 
       @balance -=amount
-      puts "Withdrawal Successful! Remaining balance:$#{balance}"
+      puts "Withdrawal Successful! Remaining balance:#{balance}"
     end
   end
 
   #check_balance
   def check_balance
-    puts "Account number: #{@account_number} | Name: #{name} | Balance: $#{balance}"
+    puts "Account number: #{@account_number} | Name: #{name} | Balance: #{balance}"
   end
  end
 end
