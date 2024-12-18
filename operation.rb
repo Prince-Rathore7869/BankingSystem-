@@ -1,13 +1,17 @@
 require_relative 'employee_file'
 require_relative 'bank_account'
+require_relative 'dummy_data'
 
-module Bank_operation
+module Bankoperation
   include Employee
   include Account
+  include TestModule
   
   class BankingSystem
     def initialize
       @accounts=[]
+      dummy_data(@accounts)
+      
     end
     def run
       employee=EmployeeLogin.new
@@ -77,7 +81,6 @@ module Bank_operation
     def list_all_customers
       if @accounts.empty?
         puts "No customers registered yet. Please add some customers."
-      
       else
         puts "-------List of All Customers--------"
         @accounts.each do |account|
@@ -94,16 +97,17 @@ module Bank_operation
     def serach_customer_by_id
       print "Enter the customer id you want to search:"
       customer_id=gets.chomp.to_i
-      account=@accounts.find {|acc| acc.customer_id== customer_id}
-      if account
+       
+      customer=@accounts.find {|acc| acc.customer_id== customer_id}
+      if customer
         puts "--------Customer Details--------"
-        puts "Name:#{account.name}"
-        puts "Customer Id:#{account.customer_id}"
-        puts "Account no.:#{account.account_number}"
-        puts "Aadhar no.:#{account.aadhar_number}"
-        puts "balance:#{account.balance}"
+        puts "Name:#{customer.name}"
+        puts "Customer Id:#{customer.customer_id}"
+        puts "Account no.:#{customer.account_number}"
+        puts "Aadhar no.:#{customer.aadhar_number}"
+        puts "balance:#{customer.balance}"
       else
-        puts "Customer with ID#{customer_id} not found"      
+        puts "Customer with ID#{customer_id} not found:"      
       end
     end
 
