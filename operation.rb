@@ -5,11 +5,11 @@ module Bank_operation
   include Employee
   include Account
   #This is the file where the data will be stored
-  DATA_FILE= './accounts_data.dat'
+  #DATA_FILE= './accounts_data.dat'
 
   class BankingSystem
     def initialize
-      @accounts=load_accounts
+      @accounts=[]
     end
     def run
       employee=EmployeeLogin.new
@@ -17,7 +17,7 @@ module Bank_operation
       end
 
       loop do 
-        puts "\n------Banking Sysem Menu-----"
+        puts "\n------Banking System Menu-----"
         puts "1. Register Customer"
         puts "2. Deposit"
         puts "3. Withdraw"
@@ -45,46 +45,28 @@ module Bank_operation
       end
     end
     
-    private
-    #Load accounts from the binary file
-    def load_accounts
-      if File.exist?(DATA_FILE)
-        begin
-        File.open(DATA_FILE,'rb') do |file|
-        Marshal.load(file) || []
-        end
-        rescue => e
-        puts "failed to load account data: #{e.message}"
-         []
-        end
-      else
-        []
-      end
-    end
-
-    #Save accounts to the binary file
-    def save_accounts
-      
-      File.open(DATA_FILE,'wb') do |file|
-       Marshal.dump(@accounts,file)
-      end
-    end
-
+    
     #Register anew Customer
     def register_customer
       print "Enter Customer Name: "
       name=gets.chomp
-      print "Enter Initial Depost Amount: "
-      initial_deposit=gets.chomp.to_f
+      print "Enter your Aadhar Number"
+      aadhar_number=gets.chomp
+      if aadhar_number.match?(/^\d{12}$/)
+      
+       print "Enter Initial Depost Amount: "
+       initial_deposit=gets.chomp.to_f
 
-      if initial_deposit<0
+       if initial_deposit<0
         puts "Initial deposit cannot be negative."
-      else
-        account=Bank_Account.new(name,initial_deposit)
+       else
+        account=BankAccount.new(name,initial_deposit,aadhar_number)
         @accounts<<account
-        puts "Customer registered successfully!
-        Account Number:#{account.account_number}"
-        save_accounts
+        puts "Customer registered successfully!"
+        puts "Customer Id:#{account.customer_id}, Account Number:#{account.account_number}"
+       end 
+      else
+        puts "Invalid Aadhar number. It have to be exactly 12 digits."
       end
     end
 
@@ -105,7 +87,7 @@ module Bank_operation
           puts 'Deposit amount must be greater than 0.'
         else
           account.deposit(amount)
-          save_accounts
+          
         end
       else
         puts "account not found!"
@@ -122,7 +104,7 @@ module Bank_operation
           puts "Withdrawal amount must be greater than 0"
         else
           account.withdraw(amount)
-          save_accounts
+          
         end
       else
         puts "Account not found!"
