@@ -1,6 +1,6 @@
 module Account
  class BankAccount
-  attr_reader :account_number,:name, :balance, :customer_id, :aadhar_number
+  attr_accessor :account_number,:name, :balance, :customer_id, :aadhar_number
   @@account_number=100
   @@customer_id=0
   
