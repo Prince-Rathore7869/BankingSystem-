@@ -4,9 +4,7 @@ require_relative 'bank_account'
 module Bank_operation
   include Employee
   include Account
-  #This is the file where the data will be stored
-  #DATA_FILE= './accounts_data.dat'
-
+  
   class BankingSystem
     def initialize
       @accounts=[]
@@ -23,7 +21,8 @@ module Bank_operation
         puts "3. Withdraw"
         puts "4. Check balance"
         puts "5. Search a Customer"
-        puts "6. Exit"
+        puts "6. List All Customer"
+        puts "7. Exit"
 
         print "Choose an option: "
         choice=gets.chomp.to_i
@@ -40,6 +39,8 @@ module Bank_operation
         when 5
            serach_customer_by_id
         when 6
+           list_all_customers
+        when 7
           puts "Exiting the banking System.Goodbye"
           break 
         else
@@ -47,7 +48,6 @@ module Bank_operation
         end
       end
     end
-    
     
     #Register anew Customer
     def register_customer
@@ -73,6 +73,23 @@ module Bank_operation
       end
     end
 
+    #This will list all the customer
+    def list_all_customers
+      if @accounts.empty?
+        puts "No customers registered yet. Please add some customers."
+      
+      else
+        puts "-------List of All Customers--------"
+        @accounts.each do |account|
+          puts "Name:#{account.name}"
+          puts "Customer ID:#{account.customer_id}"
+          puts "Account Number:#{account.account_number}"
+          puts "Aadhar No.:#{account.aadhar_number}"
+          puts "balance:#{account.balance}"
+        end
+      end
+    end
+    
     #This will search a customer by their id only
     def serach_customer_by_id
       print "Enter the customer id you want to search:"
@@ -124,7 +141,6 @@ module Bank_operation
           puts "Withdrawal amount must be greater than 0"
         else
           account.withdraw(amount)
-          
         end
       else
         puts "Account not found!"
