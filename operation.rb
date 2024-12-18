@@ -22,7 +22,8 @@ module Bank_operation
         puts "2. Deposit"
         puts "3. Withdraw"
         puts "4. Check balance"
-        puts "5. Exit"
+        puts "5. Search a Customer"
+        puts "6. Exit"
 
         print "Choose an option: "
         choice=gets.chomp.to_i
@@ -37,6 +38,8 @@ module Bank_operation
         when 4
           perform_check_balance
         when 5
+           serach_customer_by_id
+        when 6
           puts "Exiting the banking System.Goodbye"
           break 
         else
@@ -67,6 +70,23 @@ module Bank_operation
        end 
       else
         puts "Invalid Aadhar number. It have to be exactly 12 digits."
+      end
+    end
+
+    #This will search a customer by their id only
+    def serach_customer_by_id
+      print "Enter the customer id you want to search:"
+      customer_id=gets.chomp.to_i
+      account=@accounts.find {|acc| acc.customer_id== customer_id}
+      if account
+        puts "--------Customer Details--------"
+        puts "Name:#{account.name}"
+        puts "Customer Id:#{account.customer_id}"
+        puts "Account no.:#{account.account_number}"
+        puts "Aadhar no.:#{account.aadhar_number}"
+        puts "balance:#{account.balance}"
+      else
+        puts "Customer with ID#{customer_id} not found"      
       end
     end
 
