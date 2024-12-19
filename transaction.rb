@@ -28,9 +28,16 @@ module Transaction
      #Perform the transfer 
      sender.balance -=amount
      recevier.balance +=amount
-
+      #update sender's transaction history
+     sender.transaction << {type:"Transfer Sent", amount: amount,balance: sender.balance}
+     #update receiver's transaction history
+     recevier.transaction << {type:"Transfer recevied",amount: amount,balance: recevier.balance}
      puts "Transaction Successful!"
      puts "Sender's New Balance: #{sender.balance}"
      puts "Receiver's New Balance: #{recevier.balance}"
+  end
+
+  def show_transaction_history(account)
+    account.display_transaction
   end
 end
