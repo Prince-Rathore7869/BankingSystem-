@@ -1,5 +1,8 @@
+require_relative 'operation'
+
 module TestModule
-  
+  #include Bankoperation
+
   #In this dummy data only we have to give the name,balance,aadhar no. because we are creating
   #the data in hash and in the dummy info have the valid customer id values
   def dummy_data(accounts)
@@ -11,7 +14,7 @@ module TestModule
 
   dummy_info.each do |data|
     account=BankAccount.new(data[:name],data[:balance],data[:aadhar_number])
-    @accounts << account
+    accounts[account.customer_id]=account       #Add to the hash
    end
   end
 end

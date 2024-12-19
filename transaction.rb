@@ -1,15 +1,16 @@
 require_relative 'operation'
+require_relative 'validate_inputs'
 module Transaction
   #include Bankoperation
+  include Validate
   
   def transfer_amount
-    print "Enter Sender Customer ID:"
-    sender_id=gets.chomp.to_i
-    print "Enter Receiver Customer ID:"
-    recevier_id=gets.chomp.to_i
-    print "Enter the Amount to transfer:"
-    amount=gets.chomp.to_f
-
+    sender_id=get_validated_id("Enter sender's Customer ID: ")
+    recevier_id=get_validated_id("Enter receiver's Customer ID: ")
+    amount=get_validated_amount("Enter amount to be Transfer: ")
+    if amount<0
+      puts "Enter the Positive Number!"
+    else
     #Find the sender and receiver accounts in the @accounts
     sender=@accounts[sender_id]
     recevier=@accounts[recevier_id]
@@ -22,8 +23,9 @@ module Transaction
       #return
     end
      if sender.balance< amount
+      sender.transaction << {type:"Insufficient Balance", amount: amount,balance: sender.balance}
        puts "Insufficient Fund in Sender's Account."
-     end
+     else
 
      #Perform the transfer 
      sender.balance -=amount
@@ -35,6 +37,8 @@ module Transaction
      puts "Transaction Successful!"
      puts "Sender's New Balance: #{sender.balance}"
      puts "Receiver's New Balance: #{recevier.balance}"
+     end
+    end
   end
 
   def show_transaction_history(account)
