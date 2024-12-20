@@ -1,8 +1,10 @@
 require_relative 'operation'
 require_relative 'validate_inputs'
+require_relative 'bank_account'
 module Transaction
   #include Bankoperation
   include Validate
+  include Account
   
   def transfer_amount
     sender_id=get_validated_id("Enter sender's Customer ID: ")
@@ -24,9 +26,8 @@ module Transaction
     end
      if sender.balance< amount
       sender.transaction << {type:"Insufficient Balance", amount: amount,balance: sender.balance}
-       puts "Insufficient Fund in Sender's Account."
+      puts "Insufficient Fund in Sender's Account."
      else
-
      #Perform the transfer 
      sender.balance -=amount
      recevier.balance +=amount

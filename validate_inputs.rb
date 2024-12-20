@@ -1,7 +1,7 @@
 module Validate
   def get_validated_id(prompt)
     loop do
-      print prompt
+      print prompt                        #from google
       input=gets.chomp
       return input.to_i if input.match?(/^\d+$/)
       puts "Invalid Input.Customer ID must be Integer."

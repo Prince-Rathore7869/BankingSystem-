@@ -13,14 +13,14 @@ module Bankoperation
   
   class BankingSystem
     def initialize
-      @accounts= {}              #it holds the instance of Banking System
-      dummy_data(@accounts)      #populate the dummy data
+      @accounts= {}                #it holds the instance of Banking System
+      dummy_data                  #load the dummy data
     end
       def run
       employee=EmployeeLogin.new
       until employee.login
       end
-
+      #For displaying the options for the employee
       loop do 
         puts "\n------Banking System Menu-----"
         puts "1. Register Customer"
@@ -65,12 +65,12 @@ module Bankoperation
     #Register anew Customer
     def register_customer
       print "Enter Customer Name: "
-      name=gets.chomp.to_i
-      print "Enter your Aadhar Number:"
-      aadhar_number=gets.chomp
+      name=gets.chomp
+      if name =~ /^[a-zA-Z]+$/
+       print "Enter your Aadhar Number:"
+       aadhar_number=gets.chomp
       if aadhar_number.match?(/^\d{12}$/)
-       print "Enter Initial Depost Amount: "
-       initial_deposit=gets.chomp.to_f
+       initial_deposit=get_validated_amount("Enter Initial Depost Amount: ")
 
        if initial_deposit<0
         puts "Initial deposit cannot be negative."
@@ -80,8 +80,11 @@ module Bankoperation
         puts "Customer registered successfully!"
         puts "Customer Id:#{account.customer_id}, Account Number:#{account.account_number}"
        end 
-      else
-        puts "Invalid Aadhar number. It have to be exactly 12 digits."
+      else  puts "Invalid Aadhar number. It have to be exactly 12 digits."
+      end
+      else 
+        puts"Enter the Valid Name!"
+        
       end
     end
 
@@ -120,8 +123,7 @@ module Bankoperation
         puts "Customer with ID #{customer_id} not found."
         return
       end
-        print "Enter Deposit Amount: "
-        amount=gets.chomp.to_f
+        amount=get_validated_amount("Enter Deposit Amount: ")
         account.deposit(amount)
     end
 
@@ -131,10 +133,11 @@ module Bankoperation
       account=@accounts[customer_id]
       if account.nil?
         puts "Customer ID #{customer_id} not found. "
-      end
-      print "Enter withdrawal amount: " 
-      amount=gets.chomp.to_f
+        return
+      else
+      amount=get_validated_amount("Enter withdrawal amount: " )
       account.withdraw(amount)
+      end
     end
 
     #perform balance chceck
@@ -143,8 +146,10 @@ module Bankoperation
       account=@account[customer_id]
       if account.nil?
         puts "Account not found !"
-      end
+        return
+      else
       account.check_balance
+      end
     end
     #Show transaction history for a customer
     def transaction_history
@@ -153,8 +158,9 @@ module Bankoperation
       if account.nil?
         puts "Customer with ID #{customer_id}not found"
         return
-      end
+      else
       show_transaction_history(account)
+      end           
     end
   end
 end
